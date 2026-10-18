@@ -23,15 +23,15 @@ impl Converted {
     }
 }
 
-pub fn encode(transform: &dyn Transform, plain: &str) -> Converted {
-    if plain.is_empty() {
+pub fn encode(transform: &dyn Transform, decoded: &str) -> Converted {
+    if decoded.is_empty() {
         return Converted::ok(String::new());
     }
     // Typed text is always valid UTF-8; U+FFFD is how invalid input shows up.
-    if plain.contains(char::REPLACEMENT_CHARACTER) {
+    if decoded.contains(char::REPLACEMENT_CHARACTER) {
         return Converted::failed("contains U+FFFD (\u{FFFD}), likely from a lossy conversion");
     }
-    Converted::ok(transform.encode(plain.as_bytes()))
+    Converted::ok(transform.encode(decoded.as_bytes()))
 }
 
 pub fn decode(transform: &dyn Transform, encoded: &str) -> Converted {
@@ -56,10 +56,13 @@ mod tests {
 
     #[test]
     fn round_trip() {
-        let plain = "héllo, wörld ✓";
-        let encoded = encode(&Base64, plain);
+        let decoded = "héllo, wörld ✓";
+        let encoded = encode(&Base64, decoded);
         assert_eq!(encoded.status, "");
-        assert_eq!(decode(&Base64, &encoded.text), Converted::ok(plain.into()));
+        assert_eq!(
+            decode(&Base64, &encoded.text),
+            Converted::ok(decoded.into())
+        );
     }
 
     #[test]
@@ -79,7 +82,7 @@ mod tests {
     }
 
     #[test]
-    fn non_utf8_decode_clears_plain_with_warning() {
+    fn non_utf8_decode_clears_decoded_with_warning() {
         // "/w==" is the single byte 0xFF.
         let out = decode(&Base64, "/w==");
         assert_eq!(out.text, "");
@@ -94,14 +97,14 @@ mod tests {
     }
 
     #[test]
-    fn decode_error_clears_plain_and_shows_error_text() {
+    fn decode_error_clears_decoded_and_shows_error_text() {
         let out = decode(&Base64, "aGV*");
         assert_eq!(out.text, "");
         assert_eq!(out.status, DecodeError::InvalidChar('*').to_string());
     }
 
     #[test]
-    fn one_way_transform_clears_plain_with_error() {
+    fn one_way_transform_clears_decoded_with_error() {
         struct OneWay;
         impl Transform for OneWay {
             fn name(&self) -> &'static str {
