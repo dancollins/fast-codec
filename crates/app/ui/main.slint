@@ -5,11 +5,12 @@ export component MainWindow inherits Window {
     in-out property <string> encoded <=> encoded-edit.text;
     in property <string> status;
     in property <string> transform;
+    in property <image> window-icon;
     callback decoded-edited(string);
     callback encoded-edited(string);
 
     title: "fast-codec";
-    icon: @image-url("../assets/icon.svg");
+    icon: root.window-icon;
     preferred-width: 640px;
     preferred-height: 400px;
     forward-focus: decoded-edit;

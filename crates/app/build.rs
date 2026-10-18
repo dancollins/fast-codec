@@ -7,12 +7,25 @@ const ICON_SVG: &str = "assets/icon.svg";
 // Windows picks the closest frame, so include the 125% and 150% sizes as well.
 const ICO_SIZES: [u32; 10] = [16, 20, 24, 30, 32, 40, 48, 60, 64, 256];
 
+const WINDOW_ICON_PX: u32 = 64;
+
 fn main() {
     slint_build::compile("ui/main.slint").unwrap();
 
     println!("cargo:rerun-if-changed={ICON_SVG}");
-    let ico = PathBuf::from(env::var_os("OUT_DIR").unwrap()).join("fast-codec.ico");
-    write_ico(Path::new(ICON_SVG), &ico);
+    let out_dir = PathBuf::from(env::var_os("OUT_DIR").unwrap());
+    let tree =
+        usvg::Tree::from_data(&fs::read(ICON_SVG).unwrap(), &usvg::Options::default()).unwrap();
+
+    let ico = out_dir.join("fast-codec.ico");
+    write_ico(&tree, &ico);
+
+    fs::write(
+        out_dir.join("window-icon.rgba"),
+        render_rgba(&tree, WINDOW_ICON_PX),
+    )
+    .unwrap();
+    println!("cargo:rustc-env=WINDOW_ICON_PX={WINDOW_ICON_PX}");
 
     if env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows") {
         winresource::WindowsResource::new()
@@ -22,9 +35,11 @@ fn main() {
     }
 }
 
-fn write_ico(svg: &Path, out: &Path) {
-    let tree = usvg::Tree::from_data(&fs::read(svg).unwrap(), &usvg::Options::default()).unwrap();
-    let frames: Vec<Vec<u8>> = ICO_SIZES.iter().map(|&px| render_png(&tree, px)).collect();
+fn write_ico(tree: &usvg::Tree, out: &Path) {
+    let frames: Vec<Vec<u8>> = ICO_SIZES
+        .iter()
+        .map(|&px| render(tree, px).encode_png().unwrap())
+        .collect();
 
     // ICO with PNG-encoded frames: a 6-byte header, a 16-byte entry per frame, then the PNGs.
     let mut ico = Vec::new();
@@ -46,7 +61,19 @@ fn write_ico(svg: &Path, out: &Path) {
     fs::write(out, ico).unwrap();
 }
 
-fn render_png(tree: &usvg::Tree, px: u32) -> Vec<u8> {
+/// Straight (not premultiplied) RGBA.
+fn render_rgba(tree: &usvg::Tree, px: u32) -> Vec<u8> {
+    render(tree, px)
+        .pixels()
+        .iter()
+        .flat_map(|p| {
+            let c = p.demultiply();
+            [c.red(), c.green(), c.blue(), c.alpha()]
+        })
+        .collect()
+}
+
+fn render(tree: &usvg::Tree, px: u32) -> tiny_skia::Pixmap {
     let mut pixmap = tiny_skia::Pixmap::new(px, px).unwrap();
     let scale = px as f32 / tree.size().width();
     resvg::render(
@@ -54,5 +81,5 @@ fn render_png(tree: &usvg::Tree, px: u32) -> Vec<u8> {
         tiny_skia::Transform::from_scale(scale, scale),
         &mut pixmap.as_mut(),
     );
-    pixmap.encode_png().unwrap()
+    pixmap
 }

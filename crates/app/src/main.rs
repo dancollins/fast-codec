@@ -9,6 +9,7 @@ slint::include_modules!();
 fn main() -> Result<(), slint::PlatformError> {
     let window = MainWindow::new()?;
     window.set_transform(Base64.name().into());
+    window.set_window_icon(window_icon());
 
     // `edited` fires on user edits only, so these setters don't call back into each other.
     let weak = window.as_weak();
@@ -28,4 +29,13 @@ fn main() -> Result<(), slint::PlatformError> {
     });
 
     window.run()
+}
+
+// Pre-rendered rather than the SVG: Slint 1.18 multiplies an SVG icon's colours by alpha
+// twice on the way to winit, darkening the translucent bits (`icon_to_winit` in
+// i-slint-backend-winit). Straight RGBA reaches winit unchanged.
+fn window_icon() -> slint::Image {
+    let px = env!("WINDOW_ICON_PX").parse().unwrap();
+    let rgba = include_bytes!(concat!(env!("OUT_DIR"), "/window-icon.rgba"));
+    slint::Image::from_rgba8(slint::SharedPixelBuffer::clone_from_slice(rgba, px, px))
 }
