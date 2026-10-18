@@ -43,3 +43,4 @@ On Linux, bind the key in your desktop environment's keyboard shortcuts.
 | Path | What |
 |---|---|
 | `crates/app` | The GUI: Slint markup in `ui/`, Rust in `src/` |
+| `crates/codec` | The transforms, with no GUI dependency |
