@@ -5,9 +5,11 @@ in either direction. It is meant to be on screen the moment you press its hotkey
 
 ## Build
 
-Needs a [Rust toolchain](https://rustup.rs). No system libraries are needed to build on Linux.
+Needs a [Rust toolchain](https://rustup.rs). On Linux, also the fontconfig and FreeType
+development packages:
 
 ```sh
+sudo apt install libfontconfig-dev libfreetype-dev   # Debian/Ubuntu
 cargo build --release
 ```
 
