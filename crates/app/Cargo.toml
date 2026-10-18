@@ -5,6 +5,7 @@ edition.workspace = true
 license.workspace = true
 
 [dependencies]
+fast-codec-codec = { path = "../codec" }
 # The software renderer skips GPU context creation, which dominates cold start.
 slint = { version = "1.18", default-features = false, features = ["std", "backend-winit", "renderer-software", "compat-1-18"] }
 

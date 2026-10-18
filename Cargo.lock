@@ -964,6 +964,7 @@ dependencies = [
 name = "fast-codec"
 version = "0.1.0"
 dependencies = [
+ "fast-codec-codec",
  "fontique",
  "slint",
  "slint-build",

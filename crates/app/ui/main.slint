@@ -1,14 +1,26 @@
 import { TextEdit, VerticalBox } from "std-widgets.slint";
 
 export component MainWindow inherits Window {
+    in-out property <string> plain <=> plain-edit.text;
+    in-out property <string> encoded <=> encoded-edit.text;
+    in property <string> status;
+    callback plain-edited(string);
+    callback encoded-edited(string);
+
     title: "fast-codec";
     preferred-width: 640px;
     preferred-height: 400px;
+    forward-focus: plain-edit;
 
     VerticalBox {
         Text { text: "Plain"; }
-        TextEdit { }
+        plain-edit := TextEdit {
+            edited(text) => { root.plain-edited(text); }
+        }
         Text { text: "Encoded"; }
-        TextEdit { }
+        encoded-edit := TextEdit {
+            edited(text) => { root.encoded-edited(text); }
+        }
+        Text { text: root.status; }
     }
 }
