@@ -17,21 +17,21 @@ fn main() {
     let tree =
         usvg::Tree::from_data(&fs::read(ICON_SVG).unwrap(), &usvg::Options::default()).unwrap();
 
-    let ico = out_dir.join("fast-codec.ico");
-    write_ico(&tree, &ico);
-
-    fs::write(
-        out_dir.join("window-icon.rgba"),
-        render_rgba(&tree, WINDOW_ICON_PX),
-    )
-    .unwrap();
-    println!("cargo:rustc-env=WINDOW_ICON_PX={WINDOW_ICON_PX}");
-
     if env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows") {
+        let ico = out_dir.join("fast-codec.ico");
+        write_ico(&tree, &ico);
+        // set_icon embeds it as icon resource 1, which main.rs loads for the window.
         winresource::WindowsResource::new()
             .set_icon(ico.to_str().unwrap())
             .compile()
             .unwrap();
+    } else {
+        fs::write(
+            out_dir.join("window-icon.rgba"),
+            render_rgba(&tree, WINDOW_ICON_PX),
+        )
+        .unwrap();
+        println!("cargo:rustc-env=WINDOW_ICON_PX={WINDOW_ICON_PX}");
     }
 }
 

@@ -7,9 +7,12 @@ license.workspace = true
 [dependencies]
 fast-codec-codec = { path = "../codec" }
 # Skia, because the software renderer draws text unhinted and it is hard to read.
-slint = { version = "1.18", default-features = false, features = ["std", "backend-winit", "renderer-skia", "compat-1-18"] }
+slint = { version = "1.18", default-features = false, features = ["std", "backend-winit", "renderer-skia", "unstable-winit-030", "compat-1-18"] }
 
 [build-dependencies]
 resvg = { version = "0.48", default-features = false }
 slint-build = "1.18"
 winresource = "0.1"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.61", features = ["Win32_UI_WindowsAndMessaging"] }
