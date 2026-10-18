@@ -1,0 +1,14 @@
+import { TextEdit, VerticalBox } from "std-widgets.slint";
+
+export component MainWindow inherits Window {
+    title: "fast-codec";
+    preferred-width: 640px;
+    preferred-height: 400px;
+
+    VerticalBox {
+        Text { text: "Plain"; }
+        TextEdit { }
+        Text { text: "Encoded"; }
+        TextEdit { }
+    }
+}
