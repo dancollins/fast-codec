@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <defs>
+    <rect id="b0" x="-4.2" y="-12.4" width="8.4" height="12.4" rx="4.2"/>
+    <path id="b1" d="M-3.4 -9.6 L0.4 -12.4 V0 M-3.6 0 H4.4"/>
+    <mask id="gap" maskUnits="userSpaceOnUse" x="0" y="0" width="256" height="256">
+      <rect width="256" height="256" fill="#fff"/>
+      <polygon points="150,12 62,142 122,142 104,244 194,106 134,106 166,12" transform="translate(160 128) scale(0.86) translate(-128 -128)" fill="#000" stroke="#000" stroke-width="20" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <g mask="url(#gap)" fill="none" stroke="#2fd45f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#b0" x="129" y="50" opacity="1.00"/>
+    <use href="#b1" x="114" y="50" opacity="0.84"/>
+    <use href="#b1" x="99" y="50" opacity="0.68"/>
+    <use href="#b0" x="84" y="50" opacity="0.52"/>
+    <use href="#b0" x="69" y="50" opacity="0.36"/>
+    <use href="#b1" x="54" y="50" opacity="0.20"/>
+    <use href="#b1" x="39" y="50" opacity="0.12"/>
+    <use href="#b0" x="135" y="74" opacity="1.00"/>
+    <use href="#b0" x="120" y="74" opacity="0.84"/>
+    <use href="#b1" x="105" y="74" opacity="0.68"/>
+    <use href="#b1" x="141" y="98" opacity="1.00"/>
+    <use href="#b0" x="126" y="98" opacity="0.84"/>
+    <use href="#b0" x="111" y="98" opacity="0.68"/>
+    <use href="#b0" x="96" y="98" opacity="0.52"/>
+    <use href="#b0" x="81" y="98" opacity="0.36"/>
+    <use href="#b1" x="147" y="122" opacity="1.00"/>
+    <use href="#b0" x="132" y="122" opacity="0.84"/>
+    <use href="#b1" x="117" y="122" opacity="0.68"/>
+    <use href="#b1" x="147" y="146" opacity="1.00"/>
+    <use href="#b1" x="132" y="146" opacity="0.84"/>
+    <use href="#b0" x="117" y="146" opacity="0.68"/>
+    <use href="#b0" x="102" y="146" opacity="0.52"/>
+    <use href="#b1" x="87" y="146" opacity="0.36"/>
+    <use href="#b1" x="72" y="146" opacity="0.20"/>
+    <use href="#b0" x="57" y="146" opacity="0.12"/>
+    <use href="#b1" x="141" y="170" opacity="1.00"/>
+    <use href="#b1" x="126" y="170" opacity="0.84"/>
+    <use href="#b1" x="111" y="170" opacity="0.68"/>
+    <use href="#b0" x="96" y="170" opacity="0.52"/>
+    <use href="#b1" x="81" y="170" opacity="0.36"/>
+    <use href="#b0" x="135" y="194" opacity="1.00"/>
+    <use href="#b0" x="120" y="194" opacity="0.84"/>
+    <use href="#b0" x="105" y="194" opacity="0.68"/>
+    <use href="#b0" x="90" y="194" opacity="0.52"/>
+    <use href="#b1" x="75" y="194" opacity="0.36"/>
+    <use href="#b0" x="129" y="218" opacity="1.00"/>
+    <use href="#b1" x="114" y="218" opacity="0.84"/>
+    <use href="#b1" x="99" y="218" opacity="0.68"/>
+  </g>
+  <polygon points="150,12 62,142 122,142 104,244 194,106 134,106 166,12" transform="translate(160 128) scale(0.86) translate(-128 -128)" fill="#ffc928" stroke="#b88200" stroke-width="5" stroke-linejoin="round"/>
+</svg>

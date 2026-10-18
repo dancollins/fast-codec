@@ -10,4 +10,6 @@ fast-codec-codec = { path = "../codec" }
 slint = { version = "1.18", default-features = false, features = ["std", "backend-winit", "renderer-skia", "compat-1-18"] }
 
 [build-dependencies]
+resvg = { version = "0.48", default-features = false }
 slint-build = "1.18"
+winresource = "0.1"
